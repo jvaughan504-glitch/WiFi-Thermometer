@@ -45,6 +45,8 @@ Runs on standard Arduino IDE ESP32 core
 
 Works on desktop and mobile browsers
 
+Automatically detects browser theme
+
 📡 How It Works
 1. Sensor Reading
 
