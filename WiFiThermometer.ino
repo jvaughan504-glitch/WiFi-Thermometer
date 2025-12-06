@@ -17,8 +17,8 @@
 #include <DallasTemperature.h>
 
 // ---------- USER CONFIG ----------
-const char* ssid     = "YourSSID";
-const char* password = "YourPass";
+const char* ssid     = "BELL728";
+const char* password = "9134EC94D365";
 // --------------------------------
 
 // DS18B20 on GPIO 4 (D4 on many dev boards)
@@ -107,7 +107,7 @@ void setup() {
   updateOLED();
 
   // Configure web server routes
-  server.on("/", handleRoot);        // main HTML page
+  server.on("/", handleRoot);         // main HTML page
   server.on("/temp", handleTempJSON); // JSON endpoint
   server.begin();
   Serial.println("Web server started.");
@@ -269,6 +269,17 @@ void handleRoot() {
   server.send(200, "text/html", html);
 }
 
+// JSON endpoint for temperature
+void handleTempJSON() {
+  String json;
+  if (temperatureC == DEVICE_DISCONNECTED_C || isnan(temperatureC)) {
+    json = "{\"error\":\"Sensor disconnected or not found\"}";
+  } else {
+    float tempF = temperatureC * 9.0 / 5.0 + 32.0;
+    json = "{";
+    json += "\"tempC\":" + String(temperatureC, 3) + ",";
+    json += "\"tempF\":" + String(tempF, 3);
+    json += "}";
   }
   server.send(200, "application/json", json);
 }
